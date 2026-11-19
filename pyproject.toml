@@ -1,0 +1,25 @@
+[build-system]
+requires = ["setuptools>=77", "wheel", "mojo==1.2.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "rabbit-mojo"
+version = "0.1.0"
+description = "Native Mojo scientific kernels and Python interoperability examples"
+readme = "README.md"
+requires-python = ">=3.14,<3.15"
+license = "MIT"
+dependencies = ["numpy>=2.4"]
+
+[project.optional-dependencies]
+dev = ["mojo==1.2.0", "pytest>=9", "build", "setuptools>=77", "wheel"]
+benchmark = ["threadpoolctl"]
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+rabbit_mojo = ["_mojo/*.mojo"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
