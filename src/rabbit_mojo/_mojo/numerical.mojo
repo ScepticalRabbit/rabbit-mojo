@@ -16,7 +16,7 @@ def differentiate(y_obj: PythonObject, dst_obj: PythonObject, options: PythonObj
         stride *= y.shape[j]
     for index in range(y.size):
         var j = (index//stride)%n
-        var value: Float64 = 0
+        var value: Float64
         if method == 3:
             if j == 0:
                 value = (2*y.get(index)-5*y.get(index+stride)+4*y.get(index+2*stride)-y.get(index+3*stride))/(h*h)

@@ -1,0 +1,401 @@
+[
+  {
+    "benchmark": "mesh_transform",
+    "metadata": {
+      "python": "3.14.7",
+      "numpy": "2.5.5",
+      "rabbit_mojo": "2026.11.0",
+      "mojo": "Mojo 1.2.0 (2016d0cd)",
+      "platform": "Linux-7.0.0-43-generic-x86_64-with-glibc2.39",
+      "cpu": "AMD Ryzen 7 8845HS w/ Radeon 780M Graphics",
+      "logical_cpus": 16,
+      "flags": "-O3 --target-cpu x86-64",
+      "numpy_thread_limit": 1,
+      "mojo_threads": "1 sequential/SIMD; 2 pthread workers where labelled",
+      "threadpools": [
+        {
+          "user_api": "blas",
+          "internal_api": "openblas",
+          "num_threads": 1,
+          "prefix": "libscipy_openblas",
+          "filepath": "/home/lloydf/rabbit-mojo/.venv/lib/python3.14/site-packages/numpy.libs/libscipy_openblas64_-4b78795a.so",
+          "version": "0.3.34.237.2",
+          "threading_layer": "pthreads",
+          "architecture": "SkylakeX"
+        }
+      ]
+    },
+    "measurements": [
+      {
+        "n": 4,
+        "dtype": "float64",
+        "case": "numpy_vectorised",
+        "median_ms": 0.001974,
+        "min_ms": 0.001833,
+        "max_ms": 0.002455,
+        "iqr_ms": 0.00019999999999999987,
+        "repeats": 9
+      },
+      {
+        "n": 4,
+        "dtype": "float64",
+        "case": "mojo_scalar_public",
+        "median_ms": 0.01554,
+        "min_ms": 0.013636,
+        "max_ms": 0.017033,
+        "iqr_ms": 0.0014429999999999998,
+        "repeats": 9
+      },
+      {
+        "n": 4,
+        "dtype": "float64",
+        "case": "mojo_simd_public",
+        "median_ms": 0.014327,
+        "min_ms": 0.013526,
+        "max_ms": 0.028033,
+        "iqr_ms": 0.0013620000000000004,
+        "repeats": 9
+      },
+      {
+        "n": 4,
+        "dtype": "float64",
+        "case": "mojo_pthread_1",
+        "median_ms": 0.079122,
+        "min_ms": 0.044686,
+        "max_ms": 0.107587,
+        "iqr_ms": 0.012795,
+        "repeats": 9
+      },
+      {
+        "n": 4,
+        "dtype": "float64",
+        "case": "mojo_parallel_2",
+        "median_ms": 0.05744,
+        "min_ms": 0.052501,
+        "max_ms": 0.10941,
+        "iqr_ms": 0.02665,
+        "repeats": 9
+      },
+      {
+        "n": 4,
+        "dtype": "float64",
+        "case": "mojo_caller_output",
+        "median_ms": 0.016853,
+        "min_ms": 0.016552,
+        "max_ms": 0.017794,
+        "iqr_ms": 0.0004600000000000021,
+        "repeats": 9
+      },
+      {
+        "n": 4,
+        "dtype": "float64",
+        "case": "mojo_binding_and_kernel_only",
+        "median_ms": 0.005401,
+        "min_ms": 0.00529,
+        "max_ms": 0.010951,
+        "iqr_ms": 0.00012000000000000031,
+        "repeats": 9
+      },
+      {
+        "n": 4,
+        "case": "explicit_float32_to_float64_copy_only",
+        "median_ms": 0.000311,
+        "min_ms": 0.0003,
+        "max_ms": 0.000541,
+        "iqr_ms": 4.100000000000002e-05,
+        "repeats": 9
+      },
+      {
+        "n": 4,
+        "case": "explicit_conversion_and_public_transform",
+        "median_ms": 0.013516,
+        "min_ms": 0.013215,
+        "max_ms": 0.014288,
+        "iqr_ms": 0.00019000000000000093,
+        "repeats": 9
+      },
+      {
+        "n": 100000,
+        "dtype": "float64",
+        "case": "numpy_vectorised",
+        "median_ms": 2.272494,
+        "min_ms": 2.178533,
+        "max_ms": 3.045599,
+        "iqr_ms": 0.08401099999999984,
+        "repeats": 9
+      },
+      {
+        "n": 100000,
+        "dtype": "float64",
+        "case": "mojo_scalar_public",
+        "median_ms": 13.854131,
+        "min_ms": 13.781101,
+        "max_ms": 15.573483,
+        "iqr_ms": 0.06375200000000092,
+        "repeats": 9
+      },
+      {
+        "n": 100000,
+        "dtype": "float64",
+        "case": "mojo_simd_public",
+        "median_ms": 13.854283,
+        "min_ms": 13.651133,
+        "max_ms": 15.55086,
+        "iqr_ms": 0.06939400000000084,
+        "repeats": 9
+      },
+      {
+        "n": 100000,
+        "dtype": "float64",
+        "case": "mojo_pthread_1",
+        "median_ms": 0.55715,
+        "min_ms": 0.257805,
+        "max_ms": 0.684093,
+        "iqr_ms": 0.287491,
+        "repeats": 9
+      },
+      {
+        "n": 100000,
+        "dtype": "float64",
+        "case": "mojo_parallel_2",
+        "median_ms": 0.160779,
+        "min_ms": 0.154247,
+        "max_ms": 0.339943,
+        "iqr_ms": 0.165087,
+        "repeats": 9
+      },
+      {
+        "n": 100000,
+        "dtype": "float64",
+        "case": "mojo_caller_output",
+        "median_ms": 14.684897,
+        "min_ms": 13.789377,
+        "max_ms": 16.2127,
+        "iqr_ms": 1.7085709999999992,
+        "repeats": 9
+      },
+      {
+        "n": 100000,
+        "dtype": "float64",
+        "case": "mojo_binding_and_kernel_only",
+        "median_ms": 13.813193,
+        "min_ms": 13.606356,
+        "max_ms": 15.545069,
+        "iqr_ms": 0.09265800000000013,
+        "repeats": 9
+      },
+      {
+        "n": 100000,
+        "case": "explicit_float32_to_float64_copy_only",
+        "median_ms": 0.032473,
+        "min_ms": 0.032412,
+        "max_ms": 0.033274,
+        "iqr_ms": 7.000000000000062e-05,
+        "repeats": 9
+      },
+      {
+        "n": 100000,
+        "case": "explicit_conversion_and_public_transform",
+        "median_ms": 15.794417,
+        "min_ms": 15.30598,
+        "max_ms": 18.598402,
+        "iqr_ms": 1.2618740000000006,
+        "repeats": 9
+      }
+    ]
+  },
+  {
+    "benchmark": "tensor",
+    "metadata": {
+      "python": "3.14.7",
+      "numpy": "2.5.5",
+      "rabbit_mojo": "2026.11.0",
+      "mojo": "Mojo 1.2.0 (2016d0cd)",
+      "platform": "Linux-7.0.0-43-generic-x86_64-with-glibc2.39",
+      "cpu": "AMD Ryzen 7 8845HS w/ Radeon 780M Graphics",
+      "logical_cpus": 16,
+      "flags": "-O3 --target-cpu x86-64",
+      "numpy_thread_limit": 1,
+      "mojo_threads": "1 sequential/SIMD; 2 pthread workers where labelled",
+      "threadpools": [
+        {
+          "user_api": "blas",
+          "internal_api": "openblas",
+          "num_threads": 1,
+          "prefix": "libscipy_openblas",
+          "filepath": "/home/lloydf/rabbit-mojo/.venv/lib/python3.14/site-packages/numpy.libs/libscipy_openblas64_-4b78795a.so",
+          "version": "0.3.34.237.2",
+          "threading_layer": "pthreads",
+          "architecture": "SkylakeX"
+        }
+      ]
+    },
+    "measurements": [
+      {
+        "n": 4,
+        "dtype": "float64",
+        "case": "numpy_all_invariants",
+        "median_ms": 0.016221,
+        "min_ms": 0.014518,
+        "max_ms": 0.020109,
+        "iqr_ms": 0.0021740000000000023,
+        "repeats": 9
+      },
+      {
+        "n": 4,
+        "dtype": "float64",
+        "case": "mojo_all_invariants",
+        "median_ms": 0.029056,
+        "min_ms": 0.02614,
+        "max_ms": 0.035839,
+        "iqr_ms": 0.004358000000000001,
+        "repeats": 9
+      },
+      {
+        "n": 4,
+        "dtype": "float64",
+        "case": "numpy_eigvalsh",
+        "median_ms": 0.004398,
+        "min_ms": 0.004348,
+        "max_ms": 0.00535,
+        "iqr_ms": 0.0002900000000000003,
+        "repeats": 9
+      },
+      {
+        "n": 4,
+        "dtype": "float64",
+        "case": "mojo_jacobi_principal",
+        "median_ms": 0.027664,
+        "min_ms": 0.027402,
+        "max_ms": 0.029948,
+        "iqr_ms": 0.0010320000000000017,
+        "repeats": 9
+      },
+      {
+        "n": 10000,
+        "dtype": "float64",
+        "case": "numpy_all_invariants",
+        "median_ms": 2.462218,
+        "min_ms": 2.439615,
+        "max_ms": 2.5052,
+        "iqr_ms": 0.021279999999999966,
+        "repeats": 9
+      },
+      {
+        "n": 10000,
+        "dtype": "float64",
+        "case": "mojo_all_invariants",
+        "median_ms": 3.168435,
+        "min_ms": 3.073663,
+        "max_ms": 5.039156,
+        "iqr_ms": 0.14433799999999986,
+        "repeats": 9
+      },
+      {
+        "n": 10000,
+        "dtype": "float64",
+        "case": "numpy_eigvalsh",
+        "median_ms": 4.39563,
+        "min_ms": 4.34305,
+        "max_ms": 4.502185,
+        "iqr_ms": 0.08601599999999987,
+        "repeats": 9
+      },
+      {
+        "n": 10000,
+        "dtype": "float64",
+        "case": "mojo_jacobi_principal",
+        "median_ms": 11.400921,
+        "min_ms": 10.845065,
+        "max_ms": 12.970476,
+        "iqr_ms": 0.10057300000000069,
+        "repeats": 9
+      }
+    ]
+  },
+  {
+    "benchmark": "image_sampling",
+    "metadata": {
+      "python": "3.14.7",
+      "numpy": "2.5.5",
+      "rabbit_mojo": "2026.11.0",
+      "mojo": "Mojo 1.2.0 (2016d0cd)",
+      "platform": "Linux-7.0.0-43-generic-x86_64-with-glibc2.39",
+      "cpu": "AMD Ryzen 7 8845HS w/ Radeon 780M Graphics",
+      "logical_cpus": 16,
+      "flags": "-O3 --target-cpu x86-64",
+      "numpy_thread_limit": 1,
+      "mojo_threads": "1 sequential/SIMD; 2 pthread workers where labelled",
+      "threadpools": [
+        {
+          "user_api": "blas",
+          "internal_api": "openblas",
+          "num_threads": 1,
+          "prefix": "libscipy_openblas",
+          "filepath": "/home/lloydf/rabbit-mojo/.venv/lib/python3.14/site-packages/numpy.libs/libscipy_openblas64_-4b78795a.so",
+          "version": "0.3.34.237.2",
+          "threading_layer": "pthreads",
+          "architecture": "SkylakeX"
+        }
+      ]
+    },
+    "measurements": [
+      {
+        "n": 4,
+        "image_shape": [
+          256,
+          256
+        ],
+        "dtype": "float64",
+        "case": "numpy_vectorised_bilinear",
+        "median_ms": 0.012204,
+        "min_ms": 0.011853,
+        "max_ms": 0.013917,
+        "iqr_ms": 0.00046100000000000134,
+        "repeats": 9
+      },
+      {
+        "n": 4,
+        "image_shape": [
+          256,
+          256
+        ],
+        "dtype": "float64",
+        "case": "mojo_bilinear",
+        "median_ms": 0.020118,
+        "min_ms": 0.018706,
+        "max_ms": 0.037201,
+        "iqr_ms": 0.0018150000000000006,
+        "repeats": 9
+      },
+      {
+        "n": 50000,
+        "image_shape": [
+          256,
+          256
+        ],
+        "dtype": "float64",
+        "case": "numpy_vectorised_bilinear",
+        "median_ms": 2.120071,
+        "min_ms": 2.106004,
+        "max_ms": 2.268075,
+        "iqr_ms": 0.02299500000000032,
+        "repeats": 9
+      },
+      {
+        "n": 50000,
+        "image_shape": [
+          256,
+          256
+        ],
+        "dtype": "float64",
+        "case": "mojo_bilinear",
+        "median_ms": 4.831157,
+        "min_ms": 4.773336,
+        "max_ms": 6.622236,
+        "iqr_ms": 0.05834299999999981,
+        "repeats": 9
+      }
+    ]
+  }
+]

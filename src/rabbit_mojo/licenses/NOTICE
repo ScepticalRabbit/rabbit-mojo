@@ -1,0 +1,9 @@
+rabbit-mojo Python and Mojo project sources: MIT, see the repository LICENSE.
+Bundled libKGENCompilerRTShared.so, libMSupportGlobals.so and
+libAsyncRTRuntimeGlobals.so originate from Modular's mojo-compiler 1.2.0 binary
+distribution. Copyright Modular Inc. These portions remain under their upstream
+terms, including MAX_LICENSE; APACHE_LICENSE is included for Apache/LLVM portions.
+Only ELF loader paths are adjusted to locate these dependencies beside the
+extension. Their licence is not replaced by rabbit-mojo's MIT licence.
+Upstream: https://github.com/modular/modular
+License sources: https://github.com/modular/modular/tree/main/Licenses

@@ -45,7 +45,7 @@ def principal(a_obj: PythonObject, values_obj: PythonObject, directions_obj: Pyt
             scale = max(scale,abs(a[i]))
         for i in range(n):
             v[i*n+i] = 1
-        for iteration in range(100):
+        for _ in range(100):
             var p = 0
             var q = 1
             for i in range(n):

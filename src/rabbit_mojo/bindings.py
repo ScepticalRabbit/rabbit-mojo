@@ -1,10 +1,13 @@
 """Validated synchronous boundary. Array inputs are borrowed, never coerced/copied."""
+
 import math
 import numpy as np
 from . import _native
 from .types import Mode
 
 Counter = _native.Counter
+native_affine = _native.native_affine
+
 
 def array(a, *, ndim=None, shape=None, dtype=np.float64, writable=False):
     if not isinstance(a, np.ndarray):
@@ -22,7 +25,7 @@ def array(a, *, ndim=None, shape=None, dtype=np.float64, writable=False):
     # Check the actual storage owner, including views made by as_strided.
     owner = a
     seen = set()
-    while getattr(owner, 'base', None) is not None and id(owner) not in seen:
+    while getattr(owner, "base", None) is not None and id(owner) not in seen:
         seen.add(id(owner))
         owner = owner.base
     if a.size:
@@ -33,7 +36,7 @@ def array(a, *, ndim=None, shape=None, dtype=np.float64, writable=False):
             try:
                 backing = np.frombuffer(owner, dtype=np.uint8)
                 low, high = np.lib.array_utils.byte_bounds(backing)
-            except (TypeError, BufferError, ValueError):
+            except TypeError, BufferError, ValueError:
                 raise ValueError("cannot establish backing storage bounds") from None
         if lo < low or hi > high:
             raise ValueError("view extends outside backing storage")
@@ -42,11 +45,14 @@ def array(a, *, ndim=None, shape=None, dtype=np.float64, writable=False):
             raise ValueError("output array is read-only")
         # Conservative proof that no two logical elements overlap.
         extent = a.itemsize
-        for stride, n in sorted((abs(s), n) for s, n in zip(a.strides, a.shape) if n > 1):
+        for stride, n in sorted(
+            (abs(s), n) for s, n in zip(a.strides, a.shape) if n > 1
+        ):
             if stride < extent:
                 raise ValueError("overlapping output strides")
             extent += (n - 1) * stride
     return a
+
 
 def output(out, shape, *inputs):
     if out is None:
@@ -57,9 +63,12 @@ def output(out, shape, *inputs):
             raise ValueError("output overlaps an input")
     return out
 
+
 def scalar_roundtrip(integer, real, flag, text, optional=None):
     if type(integer) is not int or not -(2**31) <= integer < 2**31:
-        raise OverflowError("integer must fit signed Int32 (also mapped to native 64-bit Int)")
+        raise OverflowError(
+            "integer must fit signed Int32 (also mapped to native 64-bit Int)"
+        )
     if type(flag) is not bool or not isinstance(text, str):
         raise TypeError("expected bool and str")
     if not isinstance(real, (int, float)) or not math.isfinite(real):
@@ -68,19 +77,33 @@ def scalar_roundtrip(integer, real, flag, text, optional=None):
         raise TypeError("optional must be a number or None")
     return _native.scalars((integer, real, flag, text, optional))
 
+
 def collection_roundtrip(items, coordinate, settings, mode=Mode.ADD):
     if not isinstance(items, list) or any(type(x) not in (int, float) for x in items):
         raise TypeError("items must be a numeric list")
-    if not isinstance(coordinate, tuple) or len(coordinate) != 2 or any(type(x) not in (int, float) for x in coordinate):
+    if (
+        not isinstance(coordinate, tuple)
+        or len(coordinate) != 2
+        or any(type(x) not in (int, float) for x in coordinate)
+    ):
         raise TypeError("coordinate must be a numeric pair")
-    if not isinstance(settings, dict) or set(settings) != {'scale'} or type(settings['scale']) not in (int, float):
+    if (
+        not isinstance(settings, dict)
+        or set(settings) != {"scale"}
+        or type(settings["scale"]) not in (int, float)
+    ):
         raise TypeError("settings must contain one numeric 'scale'")
     if not isinstance(mode, Mode):
         raise TypeError("mode must be a Mode enum")
     return _native.collections((items, coordinate, settings, int(mode)))
 
+
 def scale_inplace(a, factor=2):
-    if not isinstance(a, np.ndarray) or a.dtype not in (np.dtype('float64'), np.dtype('float32'), np.dtype('int64')):
+    if not isinstance(a, np.ndarray) or a.dtype not in (
+        np.dtype("float64"),
+        np.dtype("float32"),
+        np.dtype("int64"),
+    ):
         raise TypeError("supported dtypes: float64, float32, int64")
     array(a, dtype=a.dtype, writable=True)
     if not math.isfinite(factor):
@@ -94,7 +117,9 @@ def scale_inplace(a, factor=2):
             low, high = int(a.min()) * int(factor), int(a.max()) * int(factor)
             if min(low, high) < -(2**63) or max(low, high) >= 2**63:
                 raise OverflowError("integer product does not fit Int64")
+        factor = int(factor)
     return _native.scale(a, factor)
+
 
 def native_error(message="native demonstration error"):
     return _native.fail(message)

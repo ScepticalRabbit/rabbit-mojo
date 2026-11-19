@@ -35,13 +35,13 @@ struct View[dtype: DType](Movable):
         self.data[unsafe_offset=self.offset(index)] = value
 
 # Official NumPyView API path, specialised for rank and element type.
-def scale_contiguous[dtype: DType, rank: Int](array: PythonObject, factor: Float64) raises:
+def scale_contiguous[dtype: DType, rank: Int](array: PythonObject, factor: Scalar[dtype]) raises:
     var owner = array
     var view = from_numpy_tensor[dtype, rank](owner)
     for i in range(len(view.data)):
-        view.data[i] *= Scalar[dtype](factor)
+        view.data[i] *= factor
 
-def scale_typed[dtype: DType](array: PythonObject, factor: Float64, contiguous: Bool) raises:
+def scale_typed[dtype: DType](array: PythonObject, factor: Scalar[dtype], contiguous: Bool) raises:
     var rank = Int(py=array.ndim)
     if contiguous and rank == 1:
         scale_contiguous[dtype, 1](array, factor)
@@ -52,7 +52,7 @@ def scale_typed[dtype: DType](array: PythonObject, factor: Float64, contiguous: 
     else:
         var view = View[dtype](array)
         for i in range(view.size):
-            view.put(i, view.get(i) * Scalar[dtype](factor))
+            view.put(i, view.get(i) * factor)
 
 def scale(array: PythonObject, factor: PythonObject) raises -> PythonObject:
     var f = Float64(py=factor)
@@ -61,7 +61,7 @@ def scale(array: PythonObject, factor: PythonObject) raises -> PythonObject:
     if dtype == "float64":
         scale_typed[.float64](array, f, contiguous)
     elif dtype == "float32":
-        scale_typed[.float32](array, f, contiguous)
+        scale_typed[.float32](array, Float32(f), contiguous)
     else:
-        scale_typed[.int64](array, f, contiguous)
+        scale_typed[.int64](array, Int64(Int(py=factor)), contiguous)
     return array

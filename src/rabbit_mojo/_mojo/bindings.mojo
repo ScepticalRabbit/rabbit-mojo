@@ -1,3 +1,4 @@
+from parallel import parallel_transform
 from `comptime` import evaluate, generic_dot
 from interpolation import interpolate, q4_shape, q4_integrate
 from numerical import differentiate, integrate, newton, least_squares
@@ -7,7 +8,7 @@ from linalg import dot, vector, matrix
 from std.os import abort
 from std.python import PythonObject
 from std.python.bindings import PythonModuleBuilder
-from scalar import scalars, collections, material, fail, Counter
+from scalar import scalars, collections, material, fail, Counter, native_affine, stiffness, material_roundtrip
 from views import scale
 
 @export
@@ -22,7 +23,8 @@ def PyInit__native() abi("C") -> PythonObject:
         _ = (m.add_type[Counter]("Counter")
              .def_py_init[Counter.py_init]()
              .def_method[Counter.increment]("increment")
-             .def_method[Counter.value]("value"))
+             .def_method[Counter.value]("value")
+             .def_staticmethod[Counter.zero]("zero"))
         m.def_function[dot]("dot")
         m.def_function[vector]("vector")
         m.def_function[matrix]("matrix")
@@ -40,6 +42,10 @@ def PyInit__native() abi("C") -> PythonObject:
         m.def_function[q4_integrate]("q4_integrate")
         m.def_function[evaluate]("evaluate")
         m.def_function[generic_dot]("generic_dot")
+        m.def_function[parallel_transform]("parallel_transform")
+        m.def_function[native_affine]("native_affine")
+        m.def_function[stiffness]("stiffness")
+        m.def_function[material_roundtrip]("material_roundtrip")
         return m.finalize()
     except e:
         abort(String("rabbit_mojo initialisation failed: ", e))

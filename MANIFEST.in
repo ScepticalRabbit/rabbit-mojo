@@ -1,0 +1,8 @@
+include LICENSE README.md uv.lock
+recursive-include src/rabbit_mojo/_mojo *.mojo
+recursive-include src/rabbit_mojo/licenses *
+recursive-include examples *.py *.zig
+recursive-include tests *.py
+recursive-include benchmarks *.py
+recursive-include tools *.py
+recursive-include docs *.md *.json
